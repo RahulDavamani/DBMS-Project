@@ -1,0 +1,52 @@
+<% include ../layout/header %>
+   <div class="d-none">
+      <ul>
+         <% raws.forEach(raw => { %>
+            <li class="raw"><%= raw.rName %> - Price: $<%= raw.price %>;</li>
+         <% }) %>
+      </ul>
+   </div>
+   <div class="container">
+      <div class="row">
+         <div class="col-md-6 m-auto">
+            <h1 class="display-5 text-center">Add Vehicle</h1>
+            <form action="/machine" method="POST">
+               <div className="form-group">
+                  <input
+                     type="text"
+                     class="form-control my-3"
+                     placeholder="Vehicle Name"
+                     name="mName"
+                     required
+                  />
+               </div>
+               <div className="form-group">
+                  <input
+                     type="text"
+                     class="form-control my-3"
+                     placeholder="Size"
+                     name="usage"
+                  />
+               </div>
+               <input type="submit" class="btn btn-primary btn-block mt-4" />
+            </form>
+         </div>
+      </div>
+   </div>
+   <script>
+      var raws = $('.raw').text().split(';')
+      raws = raws.splice(0, raws.length-1)
+      var rawOptions = raws.map(raw => (
+         `<option>${raw}</option>`
+      ))
+      $('#addRaw').click(() => {
+         $('.rawList').append(`
+            <li class="list-group-item">
+               <select name='raws' class="custom-select">
+                  ${rawOptions}                  
+               </select>
+            </li>
+         `)
+      })
+   </script>
+<% include ../layout/footer %>
