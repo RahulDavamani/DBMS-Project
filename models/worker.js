@@ -11,8 +11,8 @@ var workerSchema = new mongoose.Schema({
    email: String,
    position: String,
    salary: Number,
-   adminId: {
-      type: mongoose.Schema.Types.ObjectId,
+   admin: {
+      type: mongoose.Schema.Types.String,
       ref: 'Admin'
    }
 });

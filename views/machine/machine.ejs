@@ -1,11 +1,11 @@
 <% include ../layout/header %>
    <h1 class="text-center">
-      Vehicles
+      Machine
    </h1>
    <div class="row">
       <div class="col-md-9"></div>
       <div class="col-md-3">
-         <a class="btn btn-lg btn-success" href="/machine/add">Add Vehicle</a>
+         <a class="btn btn-lg btn-success" href="/machine/add">Add Machine</a>
       </div>
    </div>
    <div class="container d-flex flex-wrap">
@@ -14,7 +14,8 @@
             <div class="card-body">
                <h5 class="card-title mb-3"> <%= machine.mName %></h5>
                <ul class="list-group">
-                  <li class="list-group-item list-group-item-dark"><b>Size:</b> <%= machine.usage %></li>
+                  <li class="list-group-item list-group-item-dark"><b>Usage:</b> <%= machine.usage %></li>
+                  <li class="list-group-item list-group-item-dark"><b>Warehouse:</b> <%= machine.warehouse %></li>
                   <% if(machine.raws.length > 0){ %>
                      <li class="list-group-item list-group-item-dark">
                         <b>Raw Materials:</b>

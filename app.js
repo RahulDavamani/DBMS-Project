@@ -17,14 +17,16 @@ var workerRoutes = require('./routes/worker')
 var warehouseRoutes = require('./routes/warehouse')
 var rawRoutes = require('./routes/raw')
 var machineRoutes = require('./routes/machine')
-var departmentRoutes = require('./routes/department')
+var departmentRoutes = require('./routes/department');
+const Admin = require("./models/admin");
+const warehouse = require("./models/warehouse");
 
 //Body Parser Config
 app.use(bodyParser.urlencoded({ extended:true }));
 app.use(bodyParser.json());
 
 //Mongoose init
-mongoose.connect("mongodb+srv://rahuldavamani:Rahulmongo1@cluster0-jtegv.mongodb.net/Factory-Database?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+mongoose.connect("mongodb+srv://AkhilRoy:AkhilRoy123@cluster0.p4xpk.mongodb.net/Factory-Management?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 app.set("view engine", "ejs");
 
 app.use(function(req, res, next){
@@ -43,5 +45,5 @@ app.use('/machine', machineRoutes)
 app.use('/department', departmentRoutes)
 
 app.listen(PORT, function(){
-   console.log("The Blog Server Started");
+   console.log("The Factory Management Server Started");
 })

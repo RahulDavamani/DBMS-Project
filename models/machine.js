@@ -3,12 +3,8 @@ var machineSchema = new mongoose.Schema({
    id: String,
    mName: String,
    usage: String,
+   warehouse: String,
    raws: [
-      {
-         type: String
-      }
-   ],
-   products: [
       {
          type: String
       }

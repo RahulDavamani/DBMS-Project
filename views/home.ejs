@@ -1,12 +1,12 @@
 <% include layout/header %>
    <h1 class="text-center">
-      Garbage Bins
+      Products
    </h1>
    <% if(Object.keys(current.admin).length){ %>
       <div class="row">
          <div class="col-md-9"></div>
          <div class="col-md-3">
-            <a class="btn btn-lg btn-success" href="/add">Add Bins</a>
+            <a class="btn btn-lg btn-success" href="/add">Add Product</a>
          </div>
       </div>
    <% } %>
@@ -32,9 +32,11 @@
                   </div>
                </h5>
                <ul class="list-group">
-                  <li class="list-group-item list-group-item-dark"><b>Supervisor:</b> <%= admins[i] %></li>
-                  <li class="list-group-item list-group-item-dark"><b>Added Date:</b> <%= `${product.expDate.getDate()}/${product.expDate.getMonth()}/${product.expDate.getFullYear()}` %></li>
-                  <li class="list-group-item list-group-item-dark"><b>Locality:</b> <%= product.warehouse %></li>
+                  <li class="list-group-item list-group-item-dark"><b>Price:</b> <%= `${product.price}` %></li>
+                  <li class="list-group-item list-group-item-dark"><b>Quantity:</b> <%= `${product.quantity}` %></li>
+                  <li class="list-group-item list-group-item-dark"><b>Warehouse:</b> <%= `${product.warehouse}` %></li>
+                  <li class="list-group-item list-group-item-dark"><b>Manufacture Date:</b> <%= `${product.mfDate.getDate()}/${product.mfDate.getMonth()}/${product.mfDate.getFullYear()}` %></li>
+                  <li class="list-group-item list-group-item-dark"><b>Expiry Date:</b> <%= `${product.expDate.getDate()}/${product.expDate.getMonth()}/${product.expDate.getFullYear()}` %></li>
                   <% if(product.machines.length > 0){ %>
                      <li class="list-group-item list-group-item-dark">
                         <b>Vehicles:</b>
@@ -45,22 +47,6 @@
                         </ul>
                      </li>
                   <% } %>
-                  <li class="list-group-item list-group-item-dark">
-                     <b>Bin Level:</b>
-                     <% if(i==0){%>
-                        <div class="progress ml-2 mr-2 mt-2">
-                           <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 25%"></div>
-                        </div>
-                     <% } %>
-                     <% if(i==1){%>
-                        <div class="progress ml-2 mr-2 mt-2">
-                           <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: 100%"></div>
-                        </div>
-                        <div class="alert alert-danger p-1 m-2 text-center">
-                           Bin OVERFLOW!!!
-                        </div>
-                     <% } %>
-                  </li>
                </ul>
             </div>
          </div>

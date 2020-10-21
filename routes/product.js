@@ -1,45 +1,35 @@
 var express     = require("express"),
     router      = express.Router(),
-    Product     = require("../models/product");
-    Raw         = require("../models/raw")
-    Machine     = require("../models/machine")
-    Warehouse   = require("../models/warehouse")
-    Admin       = require('../models/admin')
+    Product     = require("../models/product"),
+    Raw         = require("../models/raw"),
+    Machine     = require("../models/machine"),
+    Warehouse   = require("../models/warehouse"),
+    Admin       = require('../models/admin');
 
 router.get("/", (req, res) => {
    Product.find()
-      .then(async products => {
-         const admins = []
-         for (let i = 0; i < products.length; i++) {
-            var admin = await Admin.findOne({_id: products[i].adminId})
-            .then(admin => admin.username)
-            admins.push(admin);
-         }             
-         res.render('../views/home', {products, admins})
+      .then(products => {    
+         res.render('../views/home', {products})
       })
 });
 
 router.get("/add", (req, res) => {
-   const adminId = res.locals.current.admin._id;
+   const adminId = res.locals.current.admin;
    if (adminId) {
-      Warehouse.find({})
-      .then(warehouses => {
-         Machine.find({})
-         .then(machines => {
-            res.render("../views/add.ejs", {warehouses, machines})
-         })   
-      })
+      Machine.find({})
+      .then(machines => {
+         res.render("../views/add.ejs", {machines})
+      })   
    }else {
       res.redirect('/admin/login')
    }
 })
 
 router.post("/", (req, res) => {
-   const { pName, quantity, price, expDate, machines } = req.body
+   const { pName, quantity, price, mfDate, expDate, machines } = req.body
 
-   const adminId = res.locals.current.admin._id;
-   const warehouse = req.body.warehouse.split(' - ')[0]
-
+   const admin = res.locals.current.admin._id;
+   
    const machineNames = []
    if(machines){
       if(typeof machines == 'string'){
@@ -56,13 +46,17 @@ router.post("/", (req, res) => {
          if(product){
             return res.redirect('/')
          }
-         const newProduct = new Product ({
-            pName, quantity, price, expDate, warehouse, adminId, machines: machineNames
-         })
-         
-         newProduct.save()
-            .then(product => res.redirect('/'))
-            .catch(err => console.log(err))
+         Warehouse.findById(res.locals.current.admin.warehouse)
+            .then(ware => {
+               const warehouse = ware.wName;
+               const newProduct = new Product ({
+                  pName, quantity, price, mfDate, expDate, warehouse, admin, machines: machineNames
+               })
+               
+               newProduct.save()
+                  .then(product => res.redirect('/'))
+                  .catch(err => console.log(err))
+            })
       })
 })
 

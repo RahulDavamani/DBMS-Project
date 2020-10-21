@@ -7,18 +7,47 @@
    <div class="container">
       <div class="row">
          <div class="col-md-6 m-auto">
-            <h1 class="display-5 text-center">Add Garbage Bin</h1>
+            <h1 class="display-5 text-center">Add Product</h1>
             <form action="/" method="POST">
                <div className="form-group">
                   <input
                      type="text"
                      class="form-control my-3"
-                     placeholder="Bin Name"
+                     placeholder="Product Name"
                      name="pName"
                      required
                   />
                </div>
                <div className="form-group">
+                  <input
+                     type="number"
+                     class="form-control my-3"
+                     placeholder="Price"
+                     name="price"
+                     required
+                  />
+               </div>
+               <div className="form-group">
+                  <input
+                     type="number"
+                     class="form-control my-3"
+                     placeholder="Quantity"
+                     name="quantity"
+                     required
+                  />
+               </div>
+               <div className="form-group">
+                  <h6>Manufacture Date: </h6>
+                  <input
+                     type="date"
+                     class="form-control my-3"
+                     placeholder="Manufacture Date"
+                     name="mfDate"
+                     required
+                  />
+               </div>
+               <div className="form-group">
+                  <h6>Expiry Date: </h6>
                   <input
                      type="date"
                      class="form-control my-3"
@@ -27,14 +56,11 @@
                      required
                   />
                </div>
-               <select name="warehouse" class="custom-select mb-3">
-                  <% warehouses.forEach(warehouse => { %>
-                     <option><%= warehouse.wName %> - Area: <%= warehouse.address %></option>
-                  <% }) %>
+               
                </select>
                <div class="raw-select p-2">
                   <div class="d-flex justify-content-between mb-3">
-                     <h4>Vehicles: </h4>
+                     <h4>Machines: </h4>
                      <a class="btn btn-sm btn-primary" id="addMachine"><b>+</b></a>
                   </div>
                   <ul class="machineList list-group">

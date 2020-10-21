@@ -4,13 +4,12 @@ var productSchema = new mongoose.Schema({
    pName: String,
    quantity: Number,
    price: Number,
+   mfDate: Date,
    expDate: Date,
-   adminId: {
+   warehouse: String,
+   admin: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Admin"
-   },
-   warehouse: {
-      type: String
    },
    machines: [
       {

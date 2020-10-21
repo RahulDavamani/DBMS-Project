@@ -1,6 +1,7 @@
 var express     = require("express"),
     router      = express.Router(),
     Machine     = require("../models/machine");
+    Warehouse     = require("../models/warehouse");
     Raw         = require("../models/raw");
 
 router.get("/", (req, res) => {
@@ -30,6 +31,7 @@ router.get("/add", (req, res) => {
 })
 
 router.post("/", async (req, res) => {
+   const admin = res.locals.current.admin
    const { mName, usage, raws } = req.body
    const rNames = []
    if(raws){
@@ -41,7 +43,6 @@ router.post("/", async (req, res) => {
          }
       }
    }
-   
 
    Machine.findOne({mName})
       .then(machine =>{
@@ -52,9 +53,17 @@ router.post("/", async (req, res) => {
             mName, usage, raws: rNames
          })
 
-         newMachine.save()
-            .then(machine => res.redirect('/machine'))
-            .catch(err => console.log(err))
+         Warehouse.findById(admin.warehouse)
+            .then(ware => {
+               ware.machines.push(newMachine.mName);
+               ware.save()
+                  .then(ware => {
+                     newMachine.warehouse = ware.wName;
+                     newMachine.save()
+                        .then(() => res.redirect('/machine'))
+                  })
+                  .catch(err => console.log(err))
+            })
       })
 })
 

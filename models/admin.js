@@ -5,11 +5,15 @@ var adminSchema = new mongoose.Schema({
    password: String,
    products: [
       {
-         type: mongoose.Schema.Types.ObjectId,
-         ref: 'Product'
+         type: String
       }
    ],
-   warehouseId: {
+   workers: [
+      {
+         type: String
+      }
+   ],
+   warehouse: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Warehouse'
    }

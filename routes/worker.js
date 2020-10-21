@@ -1,6 +1,7 @@
 var express     = require("express"),
     router      = express.Router(),
-    Worker       = require("../models/worker");
+    Worker       = require("../models/worker"),
+    Admin       = require("../models/admin");
 
 router.get("/", (req, res) => {
    const adminId = res.locals.current.admin._id;
@@ -28,32 +29,45 @@ router.post("/", (req, res) => {
       res.locals.current.error = 'Invalid Phone Number'      
       return res.redirect('/worker/add')
    }
-   // if(!validator.isEmail(email)){
-   //    res.locals.current.error = 'Invalid Email'
-   //    return res.redirect('/worker/add')
-   // }
    Worker.findOne({email})
       .then(worker =>{
          if(worker){
             return res.redirect('/worker')
          }
-         const adminId = res.locals.current.admin._id;
-         const newCus = new Worker ({
-            fName, mName, lName, dob, address, phone, email, position, salary, adminId
+         const admin = res.locals.current.admin._id;
+         const newWorker = new Worker ({
+            fName, mName, lName, dob, address, phone, email, position, salary, admin
          })
-         newCus.save()
-            .then(worker => res.redirect('/worker'))
-            .catch(err => console.log(err))
+         
+         Admin.findById(admin)
+            .then(adm => {
+               adm.workers.push(newWorker._id);
+               adm.save()
+                  .then(admin => {
+                     newWorker.save()
+                        .then(() => res.redirect('/worker'))
+                  })
+                  .catch(err => console.log(err))
+            })
       })
 })
 
 router.post('/delete', (req, res) => {
+   const admin = res.locals.current.admin;
    const {wid} = req.body;
    Worker.findByIdAndRemove(wid, (err) => {
       if(err){
-          console.log(err);
+         console.log(err);
       }else{
-          res.redirect("/worker");
+         Admin.findById(admin._id)
+            .then(admin => {
+               for (let i = 0; i < admin.workers.length; i++) {
+                  if(admin.workers[i] == wid)
+                     admin.workers.splice(i,1)
+               }
+               admin.save()
+                  .then(res.redirect('/worker'));
+            })
       }
   });
 })

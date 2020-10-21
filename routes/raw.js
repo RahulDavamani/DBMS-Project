@@ -1,6 +1,7 @@
 var express     = require("express"),
     router      = express.Router(),
-    Raw       = require("../models/raw");
+    Raw       = require("../models/raw"),
+    Warehouse = require("../models/warehouse");
 
 router.get("/", (req, res) => {
    const adminId = res.locals.current.admin._id;
@@ -23,15 +24,24 @@ router.get("/add", (req, res) => {
 })
 
 router.post("/", (req, res) => {
-   const { rName, quantity, price, expDate } = req.body
+   const admin = res.locals.current.admin
+   const { rName, quantity, dealer, price, expDate } = req.body
    Raw.findOne({rName})
-      .then(raw =>{
+      .then(raw => {
          const newRaw = new Raw ({
-            rName, quantity, price, expDate
+            rName, quantity, dealer, price, expDate
          })
-         newRaw.save()
-            .then(raw => res.redirect('/raw'))
-            .catch(err => console.log(err))
+         Warehouse.findById(admin.warehouse)
+            .then(ware => {
+               ware.raws.push(newRaw.rName);
+               ware.save()
+                  .then(ware => {
+                     newRaw.warehouse = ware.wName;
+                     newRaw.save()
+                        .then(() => res.redirect('/raw'))
+                  })
+                  .catch(err => console.log(err))
+            })
       })
 })
 

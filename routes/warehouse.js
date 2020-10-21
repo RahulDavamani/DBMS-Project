@@ -1,3 +1,5 @@
+const warehouse = require("../models/warehouse");
+
 var express     = require("express"),
     router      = express.Router(),
     Warehouse   = require("../models/warehouse");
@@ -5,14 +7,10 @@ var express     = require("express"),
 router.get("/", (req, res) => {
    const adminId = res.locals.current.admin._id;
    if (adminId) {
-      Warehouse.find({}, function(err, warehouses){
-         if(err){
-            console.log(err)
-         }
-         else{
+      Warehouse.find({}).populate('Raw')
+         .then(warehouses => {
             res.render('../views/warehouse/warehouse.ejs', {warehouses})
-         }
-     })
+         })
    }else {
       res.redirect('/admin/login')
    }
