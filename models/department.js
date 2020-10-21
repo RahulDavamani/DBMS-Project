@@ -1,13 +1,8 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 var departmentSchema = new mongoose.Schema({
    id: String,
    dName: String,
-   product: [
-      {
-         type: mongoose.Schema.Types.ObjectId,
-         ref: 'Product'
-      }
-   ]
+   purpose: String
 });
 
 module.exports = mongoose.model("Department", departmentSchema);

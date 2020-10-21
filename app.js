@@ -18,8 +18,7 @@ var warehouseRoutes = require('./routes/warehouse')
 var rawRoutes = require('./routes/raw')
 var machineRoutes = require('./routes/machine')
 var departmentRoutes = require('./routes/department');
-const Admin = require("./models/admin");
-const warehouse = require("./models/warehouse");
+var dealerRoutes = require('./routes/dealer');
 
 //Body Parser Config
 app.use(bodyParser.urlencoded({ extended:true }));
@@ -43,6 +42,7 @@ app.use('/warehouse', warehouseRoutes)
 app.use('/raw', rawRoutes)
 app.use('/machine', machineRoutes)
 app.use('/department', departmentRoutes)
+app.use('/dealer', dealerRoutes)
 
 app.listen(PORT, function(){
    console.log("The Factory Management Server Started");

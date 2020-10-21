@@ -14,6 +14,10 @@ var workerSchema = new mongoose.Schema({
    admin: {
       type: mongoose.Schema.Types.String,
       ref: 'Admin'
+   },
+   department: {
+      type: mongoose.Schema.Types.String,
+      ref: 'Department'
    }
 });
 

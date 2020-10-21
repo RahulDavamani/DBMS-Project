@@ -66,6 +66,12 @@
                      required
                   />
                </div>
+               <h6>Department</h6>
+               <select name="department" class="custom-select mb-3">
+                  <% departments.forEach(dep => { %>
+                     <option value=<%= dep._id %>><%= dep.dName %></option>
+                  <% }) %>
+               </select>
                <div className="form-group">
                   <input
                      type="text"

@@ -1,0 +1,24 @@
+<% include ../layout/header %>
+   <h1 class="text-center">
+      Dealers
+   </h1>
+   <div class="row">
+      <div class="col-md-9"></div>
+      <div class="col-md-3">
+         <a class="btn btn-lg btn-success" href="/dealer/add">Add Dealer</a>
+      </div>
+   </div>
+   <div class="container d-flex flex-wrap">
+      <% dealers.forEach((dealer) => {%>
+         <div class="card bg-dark text-white m-4" style="width: 18rem;">
+            <div class="card-body">
+               <h5 class="card-title mb-3"> <%= dealer.dName %></h5>
+               <ul class="list-group">
+                  <li class="list-group-item list-group-item-dark"><b>Phone:</b> <%= dealer.phone %></li>
+                  <li class="list-group-item list-group-item-dark"><b>Location:</b> <%= dealer.location %></li>
+               </ul>
+            </div>
+         </div>
+      <% }) %>
+   </div>
+<% include ../layout/footer %>

@@ -1,6 +1,6 @@
 var express     = require("express"),
     router      = express.Router(),
-    Raw       = require("../models/raw"),
+    Dealer       = require("../models/dealer"),
     Warehouse = require("../models/warehouse");
 
 router.get("/", (req, res) => {
@@ -20,7 +20,13 @@ router.get("/", (req, res) => {
 });
 
 router.get("/add", (req, res) => {
-   res.render("../views/raw/add.ejs")
+   Dealer.find({}, function(err, dealers){
+      if(err)
+         console.log(err)
+      else{
+         res.render("../views/raw/add.ejs", {dealers})
+      }
+   })
 })
 
 router.post("/", (req, res) => {

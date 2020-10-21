@@ -1,17 +1,33 @@
 var express     = require("express"),
     router      = express.Router(),
-    Worker       = require("../models/worker"),
+    Worker      = require("../models/worker"),
+    Department  = require("../models/department"),
     Admin       = require("../models/admin");
 
 router.get("/", (req, res) => {
-   const adminId = res.locals.current.admin._id;
-   if (adminId) {
-      Worker.find({}, function(err, workers){
-         if(err){
+   const admin = res.locals.current.admin._id;
+   if (admin) {
+      Worker.find({admin}, (err, workers) => {
+         if(err)
             console.log(err)
-         }
          else{
-            res.render('../views/worker/worker.ejs', {workers})
+            Department.find({}, (err, departments) => {
+               var depWorkers = []
+               departments.forEach(dep => {
+                  var depworker = {
+                     dName: dep.dName,
+                     workers: []
+                  }
+                  workers.forEach(worker => {
+                     if(worker.department == dep._id)
+                        depworker['workers'].push(worker);
+                  })
+                  depWorkers.push(depworker);
+               })
+               console.log(depWorkers)
+
+               res.render('../views/worker/worker.ejs', {depWorkers})
+            })
          }
      })
    }else {
@@ -20,11 +36,13 @@ router.get("/", (req, res) => {
 });
 
 router.get("/add", (req, res) => {
-   res.render("../views/worker/add.ejs")
+   Department.find({}, (err, departments) => {
+      res.render('../views/worker/add.ejs', {departments})
+   })
 })
 
 router.post("/", (req, res) => {
-   const { fName, mName, lName, dob, address, phone, email, position, salary } = req.body
+   const { fName, mName, lName, dob, address, phone, email, department, position, salary } = req.body
    if(phone.length != 10){
       res.locals.current.error = 'Invalid Phone Number'      
       return res.redirect('/worker/add')
@@ -36,7 +54,7 @@ router.post("/", (req, res) => {
          }
          const admin = res.locals.current.admin._id;
          const newWorker = new Worker ({
-            fName, mName, lName, dob, address, phone, email, position, salary, admin
+            fName, mName, lName, dob, address, phone, email, department, position, salary, admin
          })
          
          Admin.findById(admin)
@@ -70,6 +88,17 @@ router.post('/delete', (req, res) => {
             })
       }
   });
+})
+
+router.get("/add-department", (req, res) => {
+   res.render('../views/worker/add-department.ejs')
+})
+
+router.post("/add-department", (req, res) => {
+   const { dName, purpose } = req.body;
+   newDep = new Department({ dName, purpose })
+   newDep.save()
+      .then(dep => res.redirect('/worker'))
 })
 
 module.exports = router;
