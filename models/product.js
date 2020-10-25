@@ -5,7 +5,6 @@ var productSchema = new mongoose.Schema({
    quantity: Number,
    price: Number,
    mfDate: Date,
-   expDate: Date,
    warehouse: String,
    admin: {
       type: mongoose.Schema.Types.ObjectId,

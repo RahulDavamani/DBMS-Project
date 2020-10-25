@@ -12,7 +12,21 @@
       <% raws.forEach( (raw) => {%>
          <div class="card bg-dark text-white m-4" style="width: 18rem;">
             <div class="card-body">
-               <h5 class="card-title mb-3"> <%= raw.rName %></h5>
+               <h5 class="card-title">
+                  <div class="row">
+                     <div class="col-md-10">
+                        <%= raw.rName %>
+                     </div>
+                     <div class="col-md-2">
+                        <form action="/raw/delete" method="post">
+                           <select name="rid" class="d-none">
+                              <option><%= raw._id %></option>
+                           </select>
+                           <button class="btn btn-sm btn-danger">X</button>
+                        </form>
+                     </div>
+                  </div>
+               </h5>
                <ul class="list-group">
                   <li class="list-group-item list-group-item-dark"><b>Dealer:</b> <%= raw.dealer %></li>
                   <li class="list-group-item list-group-item-dark"><b>Warehouse:</b> <%= raw.warehouse %></li>

@@ -9,7 +9,7 @@ var customerSchema = new mongoose.Schema({
    phone: Number,
    email: String,
    password: String,
-   product: [
+   products: [
       {
          type: mongoose.Schema.Types.ObjectId,
          ref: 'product'

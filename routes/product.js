@@ -1,10 +1,8 @@
 var express     = require("express"),
     router      = express.Router(),
     Product     = require("../models/product"),
-    Raw         = require("../models/raw"),
     Machine     = require("../models/machine"),
-    Warehouse   = require("../models/warehouse"),
-    Admin       = require('../models/admin');
+    Warehouse   = require("../models/warehouse");
 
 router.get("/", (req, res) => {
    Product.find()
@@ -26,7 +24,7 @@ router.get("/add", (req, res) => {
 })
 
 router.post("/", (req, res) => {
-   const { pName, quantity, price, mfDate, expDate, machines } = req.body
+   const { pName, quantity, price, mfDate, machines } = req.body
 
    const admin = res.locals.current.admin._id;
    
@@ -50,7 +48,7 @@ router.post("/", (req, res) => {
             .then(ware => {
                const warehouse = ware.wName;
                const newProduct = new Product ({
-                  pName, quantity, price, mfDate, expDate, warehouse, admin, machines: machineNames
+                  pName, quantity, price, mfDate, warehouse, admin, machines: machineNames
                })
                
                newProduct.save()

@@ -24,8 +24,6 @@ router.get("/", (req, res) => {
                   })
                   depWorkers.push(depworker);
                })
-               console.log(depWorkers)
-
                res.render('../views/worker/worker.ejs', {depWorkers})
             })
          }

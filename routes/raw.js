@@ -51,4 +51,15 @@ router.post("/", (req, res) => {
       })
 })
 
+router.post('/delete', (req, res) => {
+   const {rid} = req.body;
+   Raw.findByIdAndRemove(rid, (err) => {
+      if(err){
+         console.log(err);
+      }else{
+         res.redirect('/raw')
+      }
+  });
+})
+
 module.exports = router;

@@ -1,15 +1,7 @@
-<% include layout/header %>
+<% include ../layout/header %>
    <h1 class="text-center">
-      Products
+      My Products
    </h1>
-   <% if(Object.keys(current.admin).length){ %>
-      <div class="row">
-         <div class="col-md-9"></div>
-         <div class="col-md-3">
-            <a class="btn btn-lg btn-success" href="/add">Add Product</a>
-         </div>
-      </div>
-   <% } %>
    <div class="container d-flex flex-wrap">
       <% products.forEach( (product, i) => {%>
          <div class="card bg-dark text-white m-4" style="width: 18rem;">
@@ -19,23 +11,13 @@
                      <div class="col-md-10">
                         <%= product.pName %>
                      </div>
-                     <% if(Object.keys(current.admin).length){ %>
+                     <% if(Object.keys(current.customer).length){ %>
                         <div class="col-md-2">
-                           <form action="/delete" method="post">
+                           <form action="/myproducts/delete" method="post">
                               <select name="pid" class="d-none">
                                  <option><%= product._id %></option>
                               </select>
                               <button class="btn btn-sm btn-danger">X</button>
-                           </form>
-                        </div>
-                     <% } %>
-                     <% if(Object.keys(current.customer).length){ %>
-                        <div class="col-md-2">
-                           <form action="/myproducts/add" method="post">
-                              <select name="pid" class="d-none">
-                                 <option><%= product._id %></option>
-                              </select>
-                              <button class="btn btn-sm btn-success">+</button>
                            </form>
                         </div>
                      <% } %>
@@ -62,4 +44,4 @@
          </div>
       <% }) %>
    </div>
-<% include layout/footer %>
+<% include ../layout/footer %>
